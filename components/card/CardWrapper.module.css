@@ -1,0 +1,8 @@
+.cardWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 50px;
+  width: fit-content;
+  height: fit-content;
+  padding: 60px 30px;
+}

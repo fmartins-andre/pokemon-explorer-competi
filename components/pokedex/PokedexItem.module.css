@@ -1,0 +1,36 @@
+.item {
+  list-style-type: none;
+  background-color: #fff;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 70px 1fr 1fr 100px;
+  grid-template-rows: 70px;
+  gap: calc(15px + 1vw);
+  padding: 5px;
+  align-items: center;
+}
+
+.item span {
+  display: flex;
+  align-items: center;
+}
+
+.picture {
+  background-color: #b4adbe;
+  border: 2px solid #100b16;
+  border-radius: 5px;
+}
+
+.name {
+  font-size: 1.3em;
+  color: #535662;
+}
+
+.type {
+  background-color: #f25d52;
+  color: #fff;
+  font-size: 0.85em;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 5px;
+}

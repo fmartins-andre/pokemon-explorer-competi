@@ -1,0 +1,18 @@
+.baseButton {
+  border: 2px solid #000;
+  border-radius: 10px;
+  background-color: #7e7394;
+  color: #fff;
+  width: clamp(100px, 100%, 200px);
+  height: 42px;
+  font-size: 1em;
+}
+
+.baseButton:hover {
+  cursor: pointer;
+  filter: brightness(1.1);
+}
+
+.baseButton:active {
+  filter: brightness(0.9);
+}

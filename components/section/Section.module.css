@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  justify-content: center;
+}
+
+.section {
+  background-color: #d4c3a3;
+  max-width: 1140px;
+  width: 100%;
+  min-height: clamp(400px, 60vh, 600px);
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  margin-bottom: 30px;
+}

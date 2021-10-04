@@ -1,0 +1,41 @@
+.container {
+  width: clamp(400px, 100%, 800px);
+  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 60px 200px 60px;
+  gap: 10px 50px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "name name"
+    "picture data"
+    "action action";
+}
+
+.name {
+  grid-area: name;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+.picture {
+  grid-area: picture;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.data {
+  grid-area: data;
+  display: flex;
+  align-items: center;
+  font-family: monospace;
+}
+
+.action {
+  grid-area: action;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}

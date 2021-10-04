@@ -1,0 +1,12 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+  margin: 0;
+  list-style: none;
+}
+
+.wrapper li {
+  margin-bottom: 15px;
+}

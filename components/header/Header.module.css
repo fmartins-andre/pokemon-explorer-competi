@@ -1,0 +1,32 @@
+.header {
+  background-color: #524153;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1920px;
+  height: 100%;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 150px 1fr 115px 150px;
+  gap: clamp(5px, 2%, 50px);
+  align-items: center;
+}
+
+.box {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchBar input {
+  width: 100%;
+}
+
+.session button {
+  width: 100%;
+}

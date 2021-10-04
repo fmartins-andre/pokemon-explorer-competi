@@ -1,0 +1,10 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  padding: 0;
+  display: grid;
+  grid-template-rows: 89px 1fr 49px;
+  grid-template-columns: minmax(360px, 1fr);
+  overflow-x: hidden;
+}
