@@ -2,6 +2,7 @@
 import { FunctionComponent } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
+import Link from 'next/link'
 import { BaseInput } from '../input'
 import { BaseButton } from '../button'
 
@@ -14,16 +15,20 @@ const Header: FunctionComponent = props => {
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
-        <div className={clsx(styles.box, styles.logo)}>
-          <Image
-            src={pokemonLogo}
-            alt="Pokemon Logo"
-            objectFit={'contain'}
-            objectPosition={'50% 50%'}
-            width={150}
-            height={55}
-          />
-        </div>
+        <Link href="/">
+          <a>
+            <div className={clsx(styles.box, styles.logo)}>
+              <Image
+                src={pokemonLogo}
+                alt="Pokemon Logo"
+                objectFit={'contain'}
+                objectPosition={'50% 50%'}
+                width={150}
+                height={55}
+              />
+            </div>
+          </a>
+        </Link>
 
         <div className={clsx(styles.box, styles.searchBar)}>
           <BaseInput type="text" placeholder="Search Pokémon" />
