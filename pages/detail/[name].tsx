@@ -19,7 +19,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       return { params: { name: path.name } }
     }) ?? []
 
-  return { paths, fallback: false }
+  return { paths, fallback: 'blocking' }
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -34,7 +34,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   })
 
   const { data } = await rawResponse.json()
-  return { props: { data } }
+  return {
+    props: {
+      data
+    },
+    revalidate: 60
+  }
 }
 
 const Detail: NextPage<{data:any}> = ({ data }) => {
