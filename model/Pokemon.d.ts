@@ -1,3 +1,8 @@
+interface PokemonStats {
+  name: string
+  value: number
+}
+
 export default interface Pokemon {
   id: number
   name: string
@@ -6,4 +11,6 @@ export default interface Pokemon {
   image: string
   height?: number
   weight?: number
+  stats?: PokemonStats[]
+  abilities?: string[]
 }

@@ -52,8 +52,16 @@ export class PokemonBuilder {
     this.pokemon.baseExperience = data.base_experience
     this.pokemon.height = data?.height
     this.pokemon.weight = data?.weight
-    this.pokemon.types = data.pokemon_v2_pokemontypes.map(
+    this.pokemon.types = data?.pokemon_v2_pokemontypes?.map(
       (type: any) => type.pokemon_v2_type.name)
+    this.pokemon.abilities = data?.pokemon_v2_pokemonabilities?.map(
+      (type: any) => type.pokemon_v2_ability.name)
+    this.pokemon.stats = data?.pokemon_v2_pokemonstats?.map(
+      (type: any) => ({
+        name: type.pokemon_v2_stat.name,
+        value: type.base_stat
+      }))
+
     return this
   }
 
