@@ -59,7 +59,7 @@
   right: 10px;
 }
 
-.cardHeight {
+.cardBaseExperience {
   background-color: #535662;
   border-radius: 15px;
   width: 40px;
@@ -69,7 +69,7 @@
   top: -20px;
   left: -20px;
 }
-.cardHeight span {
+.cardBaseExperience span {
   transform: rotate(-45deg);
 }
 
