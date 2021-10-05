@@ -3,12 +3,10 @@ import Head from 'next/head'
 import Layout from '../../components/layout'
 import Section from '../../components/section'
 import PokemonProfile from '../../components/pokemonProfile'
-import { useQuery, gql } from '@apollo/client'
-
-const LIST_POKEMONS = gql``
+import { useQuery } from '@apollo/client'
 
 const Detail: NextPage = () => {
-  const { data } = useQuery(LIST_POKEMONS)
+  // const { data } = useQuery()
   return (
     <Layout>
       <Head>

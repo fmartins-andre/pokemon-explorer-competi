@@ -1,28 +1,14 @@
 import type { Key } from 'react'
 import type { NextPage } from 'next'
-import type IPokemonListItem from '../types/IPokemonListItem'
 import Head from 'next/head'
 import Layout from '../components/layout'
 import Section from '../components/section'
 import { Card, CardWrapper } from '../components/card'
 import SimpleSlider from '../components/slider'
-import { useQuery, gql } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { PokemonBuilder } from '../model/PokemonBuilder'
 
-const LIST_POKEMONS = gql`query pokemons($limit: Int, $offset: Int) {
-  pokemons(limit: $limit, offset: $offset) {
-    count
-    next
-    previous
-    status
-    message
-    results {
-      id
-      url
-      name
-      image
-    }
-  }
-}`
+import { queryPokemonsList } from '../service/queryPokemonsList'
 
 const QUERY_VARS = {
   limit: 6,
@@ -30,9 +16,12 @@ const QUERY_VARS = {
 }
 
 const Home: NextPage = () => {
-  const { data } = useQuery(LIST_POKEMONS, { variables: QUERY_VARS })
+  const { data } = useQuery(queryPokemonsList, { variables: QUERY_VARS })
 
-  console.log(data)
+  const pokemonList = data?.pokemon_v2_pokemon?.map(
+    (item: any, index: Key) =>
+      <Card key={index} data={new PokemonBuilder().fromPokeApi(item).build()} />
+  )
 
   return (
     <Layout>
@@ -43,21 +32,11 @@ const Home: NextPage = () => {
       </Head>
       <Section>
         <CardWrapper>
-          { data?.pokemons?.count > 0 &&
-            data.pokemons.results.map(
-              (pokemon: IPokemonListItem, index: Key) => (
-                <Card key={index} data={pokemon} />
-              ))
-          }
+          {pokemonList}
         </CardWrapper>
       </Section>
       <SimpleSlider>
-        { data?.pokemons?.count > 0 &&
-            data.pokemons.results.map(
-              (pokemon: IPokemonListItem, index: Key) => (
-                <Card key={index} data={pokemon} />
-              ))
-          }
+        {pokemonList}
       </SimpleSlider>
     </Layout>
   )

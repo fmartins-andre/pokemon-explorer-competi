@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: 'https://graphql-pokeapi.graphcdn.app',
+  uri: 'https://beta.pokeapi.co/graphql/v1beta',
   cache: new InMemoryCache()
 })
 
