@@ -1,10 +1,12 @@
 
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
+import type Session from '../../model/Session'
 import Image from 'next/image'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { BaseInput } from '../input'
-import { BaseButton } from '../button'
+import Button from '../button'
+import SessionController from '../../controller/session/SessionController'
 
 import styles from './Header.module.css'
 
@@ -12,6 +14,16 @@ import pokemonLogo from '../../public/pokemon_logo.svg'
 import sponsorLogo from '../../public/competi_logo.svg'
 
 const Header: FunctionComponent = props => {
+  const [session, setSession] = useState<Session|null>(null)
+
+  useEffect(() => {
+    if (!session) {
+      setSession(
+        SessionController.getSessionController().getSession()
+      )
+    }
+  }, [session, setSession])
+
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
@@ -35,7 +47,12 @@ const Header: FunctionComponent = props => {
         </div>
 
         <div className={clsx(styles.box, styles.session)}>
-          <BaseButton>Login</BaseButton>
+          {session
+            ? session.username
+            : <Link href='/session/login' passHref>
+                  <Button component='a'>Login</Button>
+              </Link>
+          }
         </div>
 
         <div className={clsx(styles.box, styles.sponsor)}>
