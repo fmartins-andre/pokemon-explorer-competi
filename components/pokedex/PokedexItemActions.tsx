@@ -1,11 +1,20 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, MouseEventHandler } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import pokedexController from '../../controller/pokedex/pokedexController'
 
 import viewIcon from '../../public/view_icon.svg'
 import trashIcon from '../../public/trash_icon.svg'
 
-const PokedexItemActions: FunctionComponent = props => {
+const PokedexItemActions: FunctionComponent<{name: string}> = props => {
+  const { name } = props
+
+  const onClickRemove: MouseEventHandler = (event) => {
+    event.preventDefault()
+    pokedexController().remove([name])
+    console.info(`Removed ${name} from Pokedex`)
+  }
+
   return (
     <>
     <style jsx>{`
@@ -14,7 +23,7 @@ const PokedexItemActions: FunctionComponent = props => {
       }
     `}</style>
     <span className="actions">
-      <Link href="/detail">
+      <Link href={`/detail/${name}` }>
         <a>
           <Image
             src={viewIcon}
@@ -25,7 +34,7 @@ const PokedexItemActions: FunctionComponent = props => {
           />
         </a>
       </Link>
-      <a href="#">
+      <a onClick={onClickRemove}>
         <Image
           src={trashIcon}
           alt="Pokemon Character"
