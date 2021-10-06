@@ -16,13 +16,12 @@ export default function pokedexController () {
     return null
   }
 
-  function remove (pokemonsNames: string[]) {
+  function remove (pokemonsNames: string[]): string[]|null {
     if (session) {
-      pokedexPersistenceLocalStorage().remove(session, pokemonsNames)
-      return true
+      return pokedexPersistenceLocalStorage().remove(session, pokemonsNames)
     }
 
-    return false
+    return null
   }
 
   return { list, add, remove }
