@@ -16,3 +16,9 @@
 .baseButton:active {
   filter: brightness(0.9);
 }
+
+.baseButtonAnchor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

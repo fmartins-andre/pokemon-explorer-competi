@@ -1,5 +1,5 @@
 import type { FunctionComponent, ButtonHTMLAttributes } from 'react'
-import styles from './BaseButton.module.css'
+import styles from './Button.module.css'
 
 const BaseButton: FunctionComponent<ButtonHTMLAttributes<HTMLButtonElement>> = props => {
   return (
