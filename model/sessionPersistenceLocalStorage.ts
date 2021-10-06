@@ -1,34 +1,45 @@
-import Session from './Session'
+import Session, { SessionDto } from './Session'
 
 export default function sessionPersistenceLocalStorage () {
-  const storageName = 'pokedex'
+  const currentSessionAddress = 'pokedexSession'
 
-  function getAll (): Session[] {
-    const rawSavedSessions = window.localStorage.getItem(storageName)
-    return rawSavedSessions
-      ? JSON.parse(rawSavedSessions)
+  function getUserProfileAddress (username: string) {
+    const pokedexSuffix = '_profile'
+    return `${username}${pokedexSuffix}`
+  }
+
+  function get (): SessionDto|null {
+    const rawSessionData = window.localStorage.getItem(currentSessionAddress)
+    return rawSessionData
+      ? JSON.parse(rawSessionData)
       : null
   }
 
-  function get (username: string): Session | null {
-    if (!username) return null
-
-    const savedSessions = getAll()
-    return savedSessions.find(session => session.username === username) ?? null
+  function find (credentials: Session): Session|null {
+    const rawUserProfile = window.localStorage.getItem(getUserProfileAddress(credentials.username))
+    return rawUserProfile
+      ? JSON.parse(rawUserProfile)
+      : null
   }
 
-  function set (session: Session) {
-    if (!session) return
+  function set (session?: Session): SessionDto|null {
+    if (!session) {
+      window.localStorage.removeItem(currentSessionAddress)
+      return null
+    }
 
-    const savedSessions = getAll()
+    const userData = JSON.stringify(session)
+    const sessionData = JSON.stringify({ username: session.username })
 
-    console.log('saving session: ', session)
+    // persist user profile data
+    window.localStorage.setItem(getUserProfileAddress(session.username), userData)
+    // save current session
+    window.localStorage.setItem(currentSessionAddress, sessionData)
 
-    window.localStorage.setItem(
-      storageName,
-      JSON.stringify(Array.prototype.concat(savedSessions, session))
-    )
+    console.info('Created session for ', session.username)
+
+    return get()
   }
 
-  return { get, set }
+  return { get, find, set }
 }

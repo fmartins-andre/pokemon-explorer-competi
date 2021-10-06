@@ -1,5 +1,8 @@
 export default interface Session {
    username: string
    password: string
-   pokedex?: string[]
+}
+
+export interface SessionDto {
+   username: string
 }
