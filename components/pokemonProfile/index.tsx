@@ -1,13 +1,21 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, MouseEventHandler } from 'react'
+import { useRouter } from 'next/router'
 import type Pokemon from '../../model/Pokemon'
 import Image from 'next/image'
-import Link from 'next/link'
-import { BaseButton } from '../button'
+import AddPokemon from '../addToPokedex/AddPokemon'
+import BaseButton from '../button/BaseButton'
 import capitalizeString from '../../utils/capitalizeString'
 
 import styles from './PokemonProfile.module.css'
 
 const PokemonProfile: FunctionComponent<{pokemon: Pokemon}> = ({ pokemon }) => {
+  const router = useRouter()
+
+  const onClickBack: MouseEventHandler = (event) => {
+    event.preventDefault()
+    router.back()
+  }
+
   return (
     <div className={styles.container}>
       <aside className={styles.name}>
@@ -36,8 +44,10 @@ const PokemonProfile: FunctionComponent<{pokemon: Pokemon}> = ({ pokemon }) => {
         </div>
       </article>
       <aside className={styles.action}>
-        <Link href="/"><a>Voltar</a></Link>
-        <BaseButton>Adicionar</BaseButton>
+        <a onClick={onClickBack}>go back</a>
+        <AddPokemon name={pokemon.name}>
+          <BaseButton>Add to Pokedex</BaseButton>
+        </AddPokemon>
       </aside>
     </div>
   )
