@@ -1,6 +1,6 @@
 
 import { FunctionComponent, useEffect, useState } from 'react'
-import type Session from '../../model/Session'
+import { SessionDto } from '../../model/Session'
 import Image from 'next/image'
 import clsx from 'clsx'
 import Link from 'next/link'
@@ -14,7 +14,7 @@ import pokemonLogo from '../../public/pokemon_logo.svg'
 import sponsorLogo from '../../public/competi_logo.svg'
 
 const Header: FunctionComponent = props => {
-  const [session, setSession] = useState<Session|null>(SessionController.getSessionController().getSession())
+  const [session, setSession] = useState<SessionDto|null>(null)
 
   useEffect(() => {
     if (!session) {
