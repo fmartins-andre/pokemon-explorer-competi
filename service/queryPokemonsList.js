@@ -1,8 +1,6 @@
-import { gql } from '@apollo/client'
-
-export const queryPokemonsList = gql`
-query pokemonsList($limit: Int, $offset: Int) {
-  pokemon_v2_pokemon(limit: $limit, offset: $offset) {
+export const queryPokemonsList = `
+query pokemonsList(#declarations#) {
+  pokemon_v2_pokemon(#filters#) {
     id
     name
     base_experience
@@ -14,9 +12,16 @@ query pokemonsList($limit: Int, $offset: Int) {
       }
     }
   }
-  pokemon_v2_pokemon_aggregate(limit: $limit, offset: $offset) {
+  pokemon_v2_pokemon_aggregate(#filters#) {
     aggregate {
       count
     }
   }
 }`
+
+export const config = {
+  listAll: {
+    declarations: '$limit: Int, $offset: Int',
+    filters: 'limit: $limit, offset: $offset'
+  }
+}
