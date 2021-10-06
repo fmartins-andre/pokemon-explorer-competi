@@ -3,7 +3,7 @@
   display: grid;
   max-height: fit-content;
   grid-template-columns: minmax(360px, 400px);
-  grid-template-rows: 80px repeat(3, 50px);
+  grid-template-rows: 80px repeat(3, 50px) 30px;
   gap: 20px;
 }
 
@@ -25,4 +25,11 @@
 
 .container div:first-of-type p {
   font-family: monospace;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
 }

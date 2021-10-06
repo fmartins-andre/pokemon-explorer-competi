@@ -1,5 +1,6 @@
-import { FunctionComponent, FormEventHandler, useState } from 'react'
-import type Session from '../../model/Session'
+import { FunctionComponent, FormEventHandler, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import type { SessionDto } from '../../model/Session'
 import BaseInput from '../input/BaseInput'
 import BaseButton from '../button/BaseButton'
 import SessionController from '../../controller/session/SessionController'
@@ -7,7 +8,19 @@ import SessionController from '../../controller/session/SessionController'
 import styles from './LoginForm.module.css'
 
 const LoginForm: FunctionComponent = props => {
-  const [session, setSession] = useState<Session|null>(null)
+  const [session, setSession] = useState<SessionDto|null>(null)
+  const [loginError, setLoginError] = useState<boolean>(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!session?.username) {
+      const currentSession = SessionController
+        .getSessionController()
+        .getSession()
+
+      setSession(currentSession)
+    }
+  }, [session, setSession])
 
   const onSubmit: FormEventHandler = (event: any) => {
     event.preventDefault()
@@ -19,11 +32,35 @@ const LoginForm: FunctionComponent = props => {
       .login(username.value, password.value)
 
     setSession(session)
+    setLoginError(!session)
+
+    if (session) {
+      router.back()
+    }
+
+    console.log('login button: ', session)
   }
 
-  return session
+  const onLogoutClick = () => {
+    SessionController
+      .getSessionController()
+      .logout()
+
+    setSession(null)
+  }
+
+  return session?.username
     ? (
-        <p>Hi, {session.username}.</p>
+        <div className={styles.container}>
+          <div>
+            <h1>Hi, {session.username}.</h1>
+          </div>
+          <div>
+            <a onClick={onLogoutClick}>
+              <BaseButton type="submit">Logout</BaseButton>
+            </a>
+          </div>
+        </div>
       )
     : (
         <form onSubmit={onSubmit} className={styles.container}>
@@ -40,6 +77,11 @@ const LoginForm: FunctionComponent = props => {
           <div>
             <BaseButton type="submit">Login</BaseButton>
           </div>
+          {loginError &&
+            <div className={styles.error}>
+              <span>Wrong password!</span>
+            </div>
+          }
         </form>
       )
 }
