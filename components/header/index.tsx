@@ -47,12 +47,12 @@ const Header: FunctionComponent = props => {
         </div>
 
         <div className={clsx(styles.box, styles.session)}>
-          {session
-            ? session.username
-            : <Link href='/session/login' passHref>
-                  <Button component='a'>Login</Button>
+              <Link href='/session' passHref>
+                {session
+                  ? <a>{session.username}</a>
+                  : <Button component='a'>Login</Button>
+                }
               </Link>
-          }
         </div>
 
         <div className={clsx(styles.box, styles.sponsor)}>
