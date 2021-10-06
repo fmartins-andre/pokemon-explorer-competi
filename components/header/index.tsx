@@ -14,7 +14,7 @@ import pokemonLogo from '../../public/pokemon_logo.svg'
 import sponsorLogo from '../../public/competi_logo.svg'
 
 const Header: FunctionComponent = props => {
-  const [session, setSession] = useState<Session|null>(null)
+  const [session, setSession] = useState<Session|null>(SessionController.getSessionController().getSession())
 
   useEffect(() => {
     if (!session) {

@@ -1,0 +1,28 @@
+.container {
+  margin-top: 50px;
+  display: grid;
+  max-height: fit-content;
+  grid-template-columns: minmax(360px, 400px);
+  grid-template-rows: 80px repeat(3, 50px);
+  gap: 20px;
+}
+
+.container input,
+.container button {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.container div:first-of-type {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.container div:first-of-type h1 {
+  padding: 0;
+  margin: 0.3em 0;
+}
+
+.container div:first-of-type p {
+  font-family: monospace;
+}
