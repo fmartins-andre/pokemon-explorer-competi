@@ -6,9 +6,8 @@ const AddPokemon: FunctionComponent<{name: string}> = props => {
   const { name, children, ...other } = props
   const router = useRouter()
 
-  const onAddToPokedexClick: MouseEventHandler<HTMLAnchorElement> = (event) => {
+  const onAddToPokedexClick: MouseEventHandler = (event) => {
     event.preventDefault()
-    const element = event.target as HTMLAnchorElement
 
     const pokedex = pokedexController().add([name])
 
@@ -23,7 +22,7 @@ const AddPokemon: FunctionComponent<{name: string}> = props => {
       router.push('/session')
     } else {
       console.info(`Added ${name} to your pokedex: \n- ${pokedex.join('\n- ')}`)
-      element.style.filter = 'grayscale(0.6)'
+      router.push('/pokedex')
     }
   }
 
