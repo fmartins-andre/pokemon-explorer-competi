@@ -1,4 +1,4 @@
-import Session from '../../model/Session'
+import Session, { SessionDto } from '../../model/Session'
 import sessionPersistenceLocalStorage from '../../model/sessionPersistenceLocalStorage'
 
 export default class SessionController implements Session {
@@ -20,28 +20,39 @@ export default class SessionController implements Session {
     return SessionController.instance
   }
 
-  public getSession (): Session | null {
-    console.info('current session: ', this)
-    return this.username ? this : null
-  }
+  public getSession (): SessionDto|null {
+    const currentSession = typeof window !== 'undefined'
+      ? sessionPersistenceLocalStorage().get()
+      : null
 
-  public login (username: string, password: string): Session | null {
-    const savedSession = sessionPersistenceLocalStorage().get(username)
-    if (savedSession) {
-      return savedSession.password === password ? savedSession : null
+    if (currentSession) {
+      SessionController.instance.username = currentSession.username
     }
 
-    SessionController.instance.username = username
-    SessionController.instance.password = password
-    sessionPersistenceLocalStorage().set(this)
+    console.info('Current session: ', currentSession)
+    return currentSession
+  }
 
-    console.log('this ', this)
+  public login (username: string, password: string): SessionDto | null {
+    const userSessionData = sessionPersistenceLocalStorage().find({ username, password })
 
-    return this
+    if (!userSessionData) {
+      SessionController.instance.username = username
+      SessionController.instance.password = password
+      const newSession = sessionPersistenceLocalStorage().set(this)
+      if (newSession) console.info('Created a new user profile for ', newSession?.username)
+
+      return newSession
+    }
+
+    return userSessionData.password === password
+      ? sessionPersistenceLocalStorage().set(userSessionData)
+      : null
   }
 
   public logout (): void {
     SessionController.instance.username = ''
     SessionController.instance.password = ''
+    sessionPersistenceLocalStorage().set()
   }
 }
