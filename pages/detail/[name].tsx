@@ -10,7 +10,7 @@ import getDetailPageStaticProps from '../../controller/detail/getDetailPageStati
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await getDetailPageStaticPaths()
-  return { paths, fallback: false }
+  return { paths, fallback: 'blocking' }
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
