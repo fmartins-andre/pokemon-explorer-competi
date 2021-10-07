@@ -1,27 +1,66 @@
-import type { Key } from 'react'
+import { Key, useState, useEffect, ChangeEventHandler } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Layout from '../components/layout'
 import Section from '../components/section'
 import { Card, CardWrapper } from '../components/card'
 import SimpleSlider from '../components/slider'
-import { useQuery } from '@apollo/client'
 import { PokemonBuilder } from '../model/PokemonBuilder'
+import PokemonFilter from '../components/filter/PokemonFilter'
 
-import { queryPokemonsList } from '../service/queryPokemonsList'
+import { DocumentNode } from '@apollo/client'
+import client from '../service/apolloCliente'
 
-const QUERY_VARS = {
-  limit: 6,
-  offset: 0
+import prepareQuery from '../utils/gqlQueryPreparation'
+import { queryPokemonsList, config } from '../service/queryPokemonsList'
+
+const createPokemonCardList = (data : any) => {
+  const createCardList = (item: any, index: Key) => {
+    const pokemon = new PokemonBuilder().fromPokeApi(item).build()
+    return <Card key={index} data={pokemon} />
+  }
+
+  return data?.pokemon_v2_pokemon?.map(createCardList)
 }
 
 const Home: NextPage = () => {
-  const { data } = useQuery(queryPokemonsList, { variables: QUERY_VARS })
+  const [pokemonsCards, setPokemonsCards] = useState(null)
+  const [filter, setFilter] = useState<string|null>(null)
 
-  const pokemonList = data?.pokemon_v2_pokemon?.map(
-    (item: any, index: Key) =>
-      <Card key={index} data={new PokemonBuilder().fromPokeApi(item).build()} />
-  )
+  useEffect(() => {
+    async function callQuery (query: DocumentNode, queryVars :any) {
+      const result = await client.query({
+        query: query,
+        variables: queryVars
+      })
+
+      setPokemonsCards(createPokemonCardList(result.data))
+    }
+
+    let query, queryVars
+
+    if (!filter) {
+      query = prepareQuery(queryPokemonsList, config.listAll)
+      queryVars = {
+        limit: 6,
+        offset: 0
+      }
+    } else {
+      query = prepareQuery(queryPokemonsList, config.filterByType)
+      queryVars = {
+        limit: 6,
+        offset: 0,
+        type_eq: filter
+      }
+    }
+
+    callQuery(query, queryVars)
+  }, [filter, setFilter])
+
+  const onChangeFilter: ChangeEventHandler<HTMLSelectElement> = (event) => {
+    event.preventDefault()
+    setFilter(event.currentTarget.value)
+  }
 
   return (
     <Layout>
@@ -31,12 +70,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Section>
+        <PokemonFilter types={['fire', 'water', 'earth', 'wind']} onChangeFilter={onChangeFilter}/>
         <CardWrapper>
-          {pokemonList}
+          {pokemonsCards}
         </CardWrapper>
       </Section>
       <SimpleSlider>
-        {pokemonList}
+        {pokemonsCards}
       </SimpleSlider>
     </Layout>
   )
