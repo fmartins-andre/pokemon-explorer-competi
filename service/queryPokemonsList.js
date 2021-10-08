@@ -25,11 +25,11 @@ export const config = {
     filters: 'limit: $limit, offset: $offset, where: {is_default: {_eq: true}}'
   },
   filterByType: {
-    declarations: '$limit: Int, $offset: Int, $type_eq: String',
-    filters: 'limit: $limit, offset: $offset, where: {pokemon_v2_pokemontypes: {pokemon_v2_type: {name: {_eq: $type_eq}}}, is_default: {_eq: true}}'
+    declarations: '$limit: Int, $offset: Int, $type: String',
+    filters: 'limit: $limit, offset: $offset, where: {pokemon_v2_pokemontypes: {pokemon_v2_type: {name: {_eq: $type}}}, is_default: {_eq: true}}'
   },
   filterByName: {
-    declarations: '$limit: Int, $offset: Int, $name: String, $_ilike: String',
-    filters: 'limit: $limit, offset: $offset, where: {is_default: {_eq: true}, name: {_ilike: $_ilike}}, order_by: {name: asc}'
+    declarations: '$limit: Int, $offset: Int, $name: String, $name: String',
+    filters: 'limit: $limit, offset: $offset, where: {is_default: {_eq: true}, name: {_ilike: $name}}, order_by: {name: asc}'
   }
 }
