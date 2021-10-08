@@ -11,8 +11,7 @@ import PokemonFilter from '../components/filter/PokemonFilter'
 import { DocumentNode } from '@apollo/client'
 import client from '../service/apolloCliente'
 
-import prepareQuery from '../utils/gqlQueryPreparation'
-import { queryPokemonsList, config } from '../service/queryPokemonsList'
+import queriesStore, { QueryStoreReducerState } from '../redux/'
 
 const createPokemonCardList = (data : any) => {
   const createCardList = (item: any, index: Key) => {
@@ -25,7 +24,11 @@ const createPokemonCardList = (data : any) => {
 
 const Home: NextPage = () => {
   const [pokemonsCards, setPokemonsCards] = useState(null)
-  const [filter, setFilter] = useState<string|null>(null)
+  const [query, setQuery] = useState<QueryStoreReducerState>(queriesStore.getState())
+
+  queriesStore.subscribe(() => {
+    setQuery(queriesStore.getState())
+  })
 
   useEffect(() => {
     async function callQuery (query: DocumentNode, queryVars :any) {
@@ -37,29 +40,17 @@ const Home: NextPage = () => {
       setPokemonsCards(createPokemonCardList(result.data))
     }
 
-    let query, queryVars
-
-    if (!filter) {
-      query = prepareQuery(queryPokemonsList, config.listAll)
-      queryVars = {
-        limit: 6,
-        offset: 0
-      }
-    } else {
-      query = prepareQuery(queryPokemonsList, config.filterByType)
-      queryVars = {
-        limit: 6,
-        offset: 0,
-        type_eq: filter
-      }
+    if (query?.query) {
+      callQuery(query.query, query.variables)
     }
-
-    callQuery(query, queryVars)
-  }, [filter, setFilter])
+  }, [query])
 
   const onChangeFilter: ChangeEventHandler<HTMLSelectElement> = (event) => {
     event.preventDefault()
-    setFilter(event.currentTarget.value)
+    queriesStore.dispatch({
+      type: 'SET_POKEMON_TYPE',
+      filter: { type: event.currentTarget.value }
+    })
   }
 
   return (
