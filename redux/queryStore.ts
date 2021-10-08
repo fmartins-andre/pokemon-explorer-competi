@@ -14,6 +14,8 @@ const initialState = {
 }
 
 function setPokemonType (state:QueryStoreReducerState, action: QueryStoreReducerAction) {
+  if (!action.filter.type) return initialState
+
   const newState = { ...state }
   newState.query = prepareQuery(queryPokemonsList, config.filterByType)
   newState.variables.type = action.filter.type
@@ -24,9 +26,11 @@ function setPokemonType (state:QueryStoreReducerState, action: QueryStoreReducer
 }
 
 function setPokemonName (state:QueryStoreReducerState, action: QueryStoreReducerAction) {
+  if (!action.filter.name) return state
+
   const newState = { ...state }
-  newState.query = prepareQuery(queryPokemonsList, config.filterByType)
-  newState.variables.name = action.filter.name
+  newState.query = prepareQuery(queryPokemonsList, config.filterByName)
+  newState.variables.name = `%${action.filter.name}%`
   newState.variables.offset = 0 // reset offset
   delete newState.variables.type // reset type
 
@@ -40,8 +44,10 @@ function setOffset (state:QueryStoreReducerState, action: QueryStoreReducerActio
   return newState
 }
 
-function storeQueries (state: QueryStoreReducerState = initialState, action: QueryStoreReducerAction) {
+function storeQueries (state:QueryStoreReducerState = initialState, action: QueryStoreReducerAction) {
   switch (action.type) {
+    case 'SET_DEFAULT':
+      return initialState
     case 'SET_POKEMON_TYPE':
       return setPokemonType(state, action)
     case 'SET_POKEMON_NAME':
