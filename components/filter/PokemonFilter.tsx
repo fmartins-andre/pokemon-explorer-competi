@@ -1,8 +1,11 @@
 import { ChangeEventHandler, FunctionComponent } from 'react'
+
 import styles from './PokemonFilter.module.css'
 
 const PokemonFilter: FunctionComponent<{types: string[], onChangeFilter: ChangeEventHandler }> = (props) => {
-  const options = props.types.map((type, index) => <option key={index} value={type}>{type}</option>)
+  const options = props.types.map(
+    (type, index) => <option key={index} value={type}>{type}</option>
+  )
 
   return (
     <div className={styles.container}>

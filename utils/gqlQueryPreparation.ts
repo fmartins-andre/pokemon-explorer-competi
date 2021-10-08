@@ -3,6 +3,7 @@ import { gql, DocumentNode } from '@apollo/client'
 interface GqlConfig {
   declarations: string
   filters: string
+  count: string
 }
 
 export default function prepareQuery (query:string, config: GqlConfig): DocumentNode {
@@ -10,5 +11,6 @@ export default function prepareQuery (query:string, config: GqlConfig): Document
     query
       .replace(/#declarations#/g, config.declarations)
       .replace(/#filters#/g, config.filters)
+      .replace(/#count#/g, config.count)
   )
 }
